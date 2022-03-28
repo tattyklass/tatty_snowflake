@@ -54,6 +54,30 @@ view: users {
     sql: ${TABLE}."GENDER" ;;
   }
 
+  dimension: pivot_liquid_test {
+    type: string
+    sql: '<strong><em><span>'|| ${TABLE}.gender|| '</strong></em></span>' ;;
+    html: {% assign words =  value | escape | replace: "&lt;", "µ" |  replace: "&gt;", "µ" | split: 'µ'  %}
+
+          {% assign i = 0 %}
+
+          {% for word in words %}
+
+          {% assign m = i | modulo: 2 %}
+
+          {% if m == 0 %}
+
+          {{ word }}
+
+          {% endif %}
+
+          {% assign i = i | plus: 1 %}
+
+          {% endfor %}
+
+          ;;
+  }
+
   dimension: last_name {
     type: string
     sql: ${TABLE}."LAST_NAME" ;;
@@ -86,6 +110,7 @@ view: users {
 
   measure: count {
     type: count
+    # html: {{ rendered_value }} || {{ count }} ;;
     drill_fields: [id, last_name, first_name, events.count, order_items.count]
   }
 }
