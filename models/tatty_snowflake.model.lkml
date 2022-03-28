@@ -12,7 +12,9 @@ persist_with: tatty_snowflake_default_datagroup
 
 explore: distribution_centers {}
 
-explore: etl_jobs {}
+explore: etl_jobs {
+  hidden: yes
+}
 
 explore: events {
   join: users {
